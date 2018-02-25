@@ -50,16 +50,11 @@ def main():
     parser.add_argument('-smtp_pwd', help='SMTP Password')
     parser.add_argument('-from_email', help='From email')
     parser.add_argument('-to_email', help='To email')
-
     args = parser.parse_args()
-    # print(args)
 
     free_learning_link = 'https://www.packtpub.com/packt/offers/free-learning'
     html = requests.get(free_learning_link, headers={'USER-AGENT': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36'})
     soup = BeautifulSoup(str(html.content), 'html.parser')
-
-    title = soup.find('div', {'class': 'dotd-title'}).find('h2').text.replace('\\n', '').replace('\\t', '')
-    summary = soup.find('div', { 'class': 'dotd-main-book-summary' }).find_all('div', {'class': None})
     book_link = 'https://www.packtpub.com' + soup.find('div', { 'class': 'dotd-main-book-image' }).find('a')['href']
 
     book_page = requests.get(book_link, headers={'USER-AGENT': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36'})
