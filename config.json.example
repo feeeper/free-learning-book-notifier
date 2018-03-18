@@ -1,0 +1,8 @@
+{ 
+    "smtp_host": "smtp.gmail.com",
+    "smtp_port": 465,
+    "smtp_login": "someone@gmail.com",
+    "smtp_pwd": "pa$$w0rd",
+    "from_email": "someone@gmail.com",
+    "to_email": "someone@gmail.com"
+}

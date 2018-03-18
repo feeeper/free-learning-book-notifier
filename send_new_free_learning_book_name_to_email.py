@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from email.message import EmailMessage
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
+import json
 
 class BookMessage:
     def __init__(self, title, link, summary, what_learn):
@@ -44,6 +44,7 @@ What Learn:
 
 def main():
     parser = argparse.ArgumentParser(description='Send email with new book title to email')
+    parser.add_argument('-config', help='Path to config file')
     parser.add_argument('-smtp_host', help='SMTP Host address')
     parser.add_argument('-smtp_port', help='SMTP Host port', default=25)
     parser.add_argument('-smtp_login', help='SMTP Login')
@@ -51,6 +52,15 @@ def main():
     parser.add_argument('-from_email', help='From email')
     parser.add_argument('-to_email', help='To email')
     args = parser.parse_args()
+
+    if not args.config is None:
+        args_from_file = json.load(open(args.config))
+        args.smtp_host = args_from_file['smtp_host']
+        args.smtp_port = args_from_file['smtp_port']
+        args.smtp_login = args_from_file['smtp_login']
+        args.smtp_pwd = args_from_file['smtp_pwd']
+        args.from_email = args_from_file['from_email']
+        args.to_email = args_from_file['to_email']
 
     free_learning_link = 'https://www.packtpub.com/packt/offers/free-learning'
     html = requests.get(free_learning_link, headers={'USER-AGENT': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36'})
